@@ -1,10 +1,12 @@
-<?php session_start(); if(!isset($_SESSION["usuario_logado"])){ header("Location: index.php?redirect=" . urlencode($_SERVER["REQUEST_URI"])); exit; } ?>
+<?php 
+require_once 'lang_detector.php';
+if(!isset($_SESSION["usuario_logado"])){ header("Location: index.php?redirect=" . urlencode($_SERVER["REQUEST_URI"])); exit; } ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?php echo $current_lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal SolanaDev - Web Sol</title>
+    <title><?php echo $t['portal_title']; ?></title>
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -72,18 +74,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Portal SolanaDev</h1>
+        <h1><?php echo $t['welcome_h1']; ?></h1>
         <div class="links">
             <a href="caixa/" class="card">
-                <h2>📦 Caixa / Carteira</h2>
-                <p>Gerenciamento de tokens e saldo do jogador.</p>
+                <h2><?php echo $t['card_caixa_title']; ?></h2>
+                <p><?php echo $t['card_caixa_desc']; ?></p>
             </a>
             <a href="panda_full/" class="card">
-                <h2>🐼 Panda Full</h2>
-                <p>Sistema administrativo e integração completa.</p>
+                <h2><?php echo $t['card_panda_title']; ?></h2>
+                <p><?php echo $t['card_panda_desc']; ?></p>
             </a>
         </div>
-        <a href="logout.php" class="logout">Sair com Segurança (YubiKey)</a>
+        <a href="logout.php" class="logout"><?php echo $t['logout_btn']; ?></a>
     </div>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+require_once '../lang_detector.php';
 // Conexão com o banco de dados
 $host = "localhost";
 $user = "root";
@@ -34,44 +35,44 @@ $result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?php echo $current_lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livro Caixa</title>
+    <title><?php echo $t['livro_caixa_title']; ?></title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>📜 Livro Caixa</h1>
+        <h1><?php echo $t['livro_caixa_title']; ?></h1>
 
         <!-- Formulário para filtro de datas -->
         <form method="GET" action="index.php">
-            <label for="start_date">Data inicial:</label>
+            <label for="start_date"><?php echo $t['start_date']; ?></label>
             <input type="date" id="start_date" name="start_date" required>
             
-            <label for="end_date">Data final:</label>
+            <label for="end_date"><?php echo $t['end_date']; ?></label>
             <input type="date" id="end_date" name="end_date" required>
             
-            <button type="submit">🔎 Filtrar</button>
+            <button type="submit"><?php echo $t['filter_btn']; ?></button>
         </form>
 
         <!-- Tabela de transações -->
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Jogador</th>
-                    <th>Tipo de Transação</th>
-                    <th>Valor</th>
-                    <th>Moeda</th>
-                    <th>Assinatura</th>
-                    <th>Data e Hora</th>
+                    <th><?php echo $t['table_id']; ?></th>
+                    <th><?php echo $t['table_player']; ?></th>
+                    <th><?php echo $t['table_type']; ?></th>
+                    <th><?php echo $t['table_value']; ?></th>
+                    <th><?php echo $t['table_currency']; ?></th>
+                    <th><?php echo $t['table_signature']; ?></th>
+                    <th><?php echo $t['table_date']; ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if ($result->num_rows > 0) {
+                if ($result && $result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         // Define a classe de cor conforme o tipo de transação
                         $classeCor = "";
@@ -94,7 +95,7 @@ $result = $conn->query($query);
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='7'>Nenhuma transação encontrada para hoje.</td></tr>";
+                    echo "<tr><td colspan='7'>{$t['no_transactions']}</td></tr>";
                 }
                 ?>
             </tbody>
@@ -108,5 +109,5 @@ $result = $conn->query($query);
 </html>
 
 <?php
-$conn->close();
+if ($conn) $conn->close();
 ?>

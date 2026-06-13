@@ -1,109 +1,112 @@
 # WebSolana
 
-WebSolana é uma plataforma web integrada para gerenciamento de ativos, tokens e automação de comandos na rede Solana (Devnet), com suporte avançado a segurança via WebAuthn (YubiKey) e integração com ambientes Docker.
+WebSolana is an integrated web platform for managing assets, tokens, and command automation on the Solana network (Devnet), featuring advanced security support via WebAuthn (YubiKey) and Docker environment integration.
 
-## 🚀 Visão Geral
+## 🚀 Overview
 
-Este projeto serve como um hub centralizado para administrar servidores (Minecraft, CS2, etc.) e gerenciar uma economia baseada em tokens Solana. Ele utiliza PHP para o frontend/backend web e Docker para isolar a CLI da Solana, permitindo execuções seguras de comandos de blockchain.
+This project serves as a centralized hub to administer servers (Minecraft, CS2, etc.) and manage an economy based on Solana tokens. It utilizes PHP for the web frontend/backend and Docker to isolate the Solana CLI, allowing for secure execution of blockchain commands.
 
-## 📂 Estrutura do Projeto
+## 📂 Project Structure
 
-Abaixo está a explicação detalhada de cada pasta e arquivo principal:
+Below is a detailed explanation of each main folder and file:
 
-### 📁 Raiz (`/`)
-*   **`index.php`**: Dashboard principal que atua como hub para diferentes painéis (Minecraft, CS2, Admin Control e Solana).
-*   **`shell.php`**: Script responsável por executar comandos via PHP que interagem diretamente com o container Docker da Solana.
-*   **`consulta.php`**: Endpoint para consultas rápidas ao sistema ou blockchain via API Key.
-*   **`yubitest.php`**: Script de teste para validação da integração com chaves de segurança YubiKey.
-*   **`LICENSE`**: Arquivo de licença do projeto.
+### 📁 Root (`/`)
+*   **`index.php`**: Main dashboard acting as a hub for different panels (Minecraft, CS2, Admin Control, and Solana).
+*   **`shell.php`**: Script responsible for executing commands via PHP that interact directly with the Solana Docker container.
+*   **`consulta.php`**: Endpoint for quick system or blockchain queries via API Key.
+*   **`yubitest.php`**: Test script for validating YubiKey security key integration.
+*   **`LICENSE`**: Project license file.
 
-### 📁 `web_sol/` (Portal Solana Principal)
-Pasta central para a interface de gerenciamento Solana.
-*   **`index.php` / `Solana.php`**: Página de entrada e landing page do portal, protegida por autenticação.
-*   **`process.php`**: Lógica de backend para o protocolo WebAuthn (Registro e Login com YubiKey).
-*   **`db.php`**: Configuração de conexão com o banco de dados principal.
-*   **`install.sh`**: Script de automação completo que instala Docker, Rust, Solana CLI, configura Apache2 e define permissões de segurança.
-*   **`api_key.php`**: Gerenciamento e validação de chaves de API.
+### 📁 `web_sol/` (Main Solana Portal)
+Central folder for the Solana management interface.
+*   **`index.php` / `Solana.php`**: Entry and landing page of the portal, protected by authentication. Now supports automatic language detection (EN, PT, ES) based on visitor IP.
+*   **`lang_detector.php`**: Core script for automatic language detection using GeoIP API.
+*   **`languages/`**: Folder containing translation files (`en.php`, `pt.php`, `es.php`).
+*   **`process.php`**: Backend logic for the WebAuthn protocol (Registration and Login with YubiKey).
+*   **`db.php`**: Main database connection configuration.
+*   **`install.sh`**: Comprehensive automation script that installs Docker, Rust, Solana CLI, configures Apache2, and sets security permissions.
+*   **`api_key.php`**: API key management and validation.
 
-#### 📁 `web_sol/panda_full/` (Sistema Administrativo e Integração Minecraft)
-Módulo focado na administração de jogadores e economia "Panda".
-*   **`panda.php`**: Painel central do sistema Panda.
-*   **`jogadores.php`**: Listagem e gerenciamento de usuários/jogadores.
-*   **`buy.php`**: Processamento de compras de tokens ou itens.
-*   **`BANCO.js`**: **Integração Minecraft (Mineflayer)**. Um bot que conecta o servidor Minecraft ao banco de dados e à rede Solana, permitindo que jogadores usem comandos in-game para gerenciar suas economias.
-*   **`panda_full_db.sql`**: Esquema do banco de dados para este módulo.
-*   **`connection.php` / `mysql.php`**: Scripts de conexão com suporte a SSL para o banco MariaDB.
+#### 📁 `web_sol/panda_full/` (Administrative System & Minecraft Integration)
+Module focused on player administration and the "Panda" economy.
+*   **`panda.php`**: Central panel of the Panda system.
+*   **`jogadores.php`**: User/player listing and management.
+*   **`buy.php`**: Processing of token or item purchases.
+*   **`BANCO.js`**: **Minecraft Integration (Mineflayer)**. A bot that connects the Minecraft server to the database and the Solana network, allowing players to use in-game commands to manage their economies.
+*   **`panda_full_db.sql`**: Database schema for this module.
+*   **`connection.php` / `mysql.php`**: Connection scripts with SSL support for the MariaDB database.
 
-#### 📁 `web_sol/caixa/` (Gestão de Carteira e Livro Caixa)
-Módulo financeiro para rastreio de transações na rede Solana.
-*   **`index.php`**: Interface do "Livro Caixa" para visualizar transações (reembolsos, transferências, compras).
-*   **`carteira.php`**: Visualização de saldo e endereços de carteira.
-*   **`transfer.php` / `transferi_p.php`**: Lógica para transferência de tokens entre carteiras.
-*   **`db_connection.php`**: Conexão específica para o módulo financeiro.
-*   **`solanaLogo.74d35f7a.svg`**: Ativo visual da Solana.
-
----
-
-## 🎮 Integração Minecraft (BOT AMAURI)
-
-O arquivo `BANCO.js` contém um bot desenvolvido com **Mineflayer** que atua como um banqueiro automatizado dentro do jogo.
-
-**Funcionalidades in-game:**
-*   `!createpandawallet`: Cria uma carteira Solana (Panda Full) para o jogador.
-*   `!pandabalance`: Consulta o saldo de tokens Panda Full via Docker/Solana CLI.
-*   `!solana`: Consulta o saldo de SOL (Devnet).
-*   `!balance`: Verifica o saldo no banco interno do servidor.
-*   `!buyapple`, `!buypickaxe`, etc.: Permite a compra de itens (Maçã Encantada, Picareta de Netherite) usando o saldo do banco.
-*   **Sistema de Juros e Investimentos**: O bot gerencia automaticamente o crescimento de investimentos e a aplicação de juros em dívidas a cada intervalo de tempo.
+#### 📁 `web_sol/caixa/` (Wallet Management & Cash Book)
+Financial module for tracking transactions on the Solana network.
+*   **`index.php`**: "Cash Book" interface for viewing transactions (refunds, transfers, purchases).
+*   **`carteira.php`**: View of balance and wallet addresses.
+*   **`transfer.php` / `transferi_p.php`**: Logic for token transfers between wallets.
+*   **`db_connection.php`**: Specific connection for the financial module.
+*   **`solanaLogo.74d35f7a.svg`**: Solana visual asset.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🎮 Minecraft Integration (AMAURI BOT)
 
-*   **Linguagens**: PHP 8.x, JavaScript (Node.js/Vanilla), SQL, Bash.
+The `BANCO.js` file contains a bot developed with **Mineflayer** that acts as an automated banker within the game.
+
+**In-game Features:**
+*   `!createpandawallet`: Creates a Solana wallet (Panda Full) for the player.
+*   `!pandabalance`: Checks Panda Full token balance via Docker/Solana CLI.
+*   `!solana`: Checks SOL balance (Devnet).
+*   `!balance`: Verifies the balance in the server's internal bank.
+*   `!buyapple`, `!buypickaxe`, etc.: Allows purchasing items (Enchanted Apple, Netherite Pickaxe) using the bank balance.
+*   **Interest and Investment System**: The bot automatically manages investment growth and applies interest to debts at regular intervals.
+
+---
+
+## 🛠️ Technologies Used
+
+*   **Languages**: PHP 8.x, JavaScript (Node.js/Vanilla), SQL, Bash.
 *   **Blockchain**: Solana CLI (Devnet).
-*   **Integração Game**: Mineflayer (Bot de Minecraft).
-*   **Infraestrutura**: Docker (Containerização da CLI), Apache2 (Servidor Web).
-*   **Segurança**: WebAuthn / FIDO2 (YubiKey), MariaDB com SSL, API Key.
-*   **Linguagens de Suporte**: Rust (necessário para ferramentas Solana).
+*   **Game Integration**: Mineflayer (Minecraft Bot).
+*   **Infrastructure**: Docker (CLI Containerization), Apache2 (Web Server).
+*   **Security**: WebAuthn / FIDO2 (YubiKey), MariaDB with SSL, API Key, GeoIP Detection.
+*   **Support Languages**: Rust (required for Solana tools).
 
 ---
 
-## ⚙️ Configurações e Instalação
+## ⚙️ Configuration and Installation
 
-### 1. Pré-requisitos
-O sistema foi desenhado para rodar em ambientes Linux (Ubuntu/Debian).
+### 1. Prerequisites
+The system is designed to run on Linux environments (Ubuntu/Debian).
 
-### 2. Instalação Automática
-O arquivo `web_sol/install.sh` contém todos os passos necessários:
+### 2. Automatic Installation
+The `web_sol/install.sh` file contains all necessary steps:
 ```bash
 cd web_sol
 chmod +x install.sh
 ./install.sh
 ```
 
-**O que o script faz:**
-1. Instala o Docker e Docker Compose.
-2. Cria uma imagem Docker customizada (`heysolana`) baseada em Debian, contendo Rust e Solana CLI.
-3. Configura o Apache2 para permitir overrides.
-4. Define permissões para o usuário `www-data` executar comandos Docker via `sudo` sem senha (necessário para a integração PHP-Solana).
+**What the script does:**
+1. Installs Docker and Docker Compose.
+2. Creates a custom Docker image (`heysolana`) based on Debian, containing Rust and Solana CLI.
+3. Configures Apache2 to allow overrides.
+4. Sets permissions for the `www-data` user to execute Docker commands via `sudo` without a password (required for PHP-Solana integration).
 
-### 3. Banco de Dados
-Importe os arquivos `.sql` fornecidos nos respectivos módulos:
+### 3. Database
+Import the provided `.sql` files in their respective modules:
 *   `web_sol/panda_full/panda_full_db.sql`
-*   As configurações de conexão (IP, usuário, senha) devem ser ajustadas em `db.php`, `connection.php` e `db_connection.php`.
+*   Connection settings (IP, user, password) should be adjusted in `db.php`, `connection.php`, and `db_connection.php`.
 
-### 4. Segurança Solana (Devnet)
-O sistema utiliza a Devnet para testes. Você pode obter SOL gratuito para sua carteira em:
+### 4. Solana Security (Devnet)
+The system uses the Devnet for testing. You can obtain free SOL for your wallet at:
 [https://faucet.solana.com/](https://faucet.solana.com/)
 
 ---
 
-## 🔒 Segurança
+## 🔒 Security
 
-*   **WebAuthn**: O login no portal Solana é reforçado por hardware (YubiKey), tornando-o imune a ataques de phishing tradicionais.
-*   **Sudoers**: O acesso do Apache ao Docker é restrito ao comando específico do container, minimizando riscos de escalada de privilégio.
-*   **SSL MariaDB**: Suporte a conexões criptografadas entre o servidor web e o banco de dados.
+*   **WebAuthn**: Portal login is reinforced by hardware (YubiKey), making it immune to traditional phishing attacks.
+*   **Sudoers**: Apache's access to Docker is restricted to the specific container command, minimizing privilege escalation risks.
+*   **SSL MariaDB**: Support for encrypted connections between the web server and the database.
+*   **IP-Based i18n**: Automatic language selection (English, Portuguese, Spanish) based on the user's region via GeoIP.
 
-## 📝 Notas
-Este projeto é voltado para diversão, aprendizado de conceitos econômicos e experimentação com a blockchain Solana. O token **SolanaDev** utilizado não possui valor financeiro real.
+## 📝 Notes
+This project is intended for fun, learning economic concepts, and experimenting with the Solana blockchain. The **SolanaDev** token used has no real financial value.
