@@ -1,6 +1,8 @@
 # WebSolana
 
-Plugin https://github.com/Annabel369/SolanaDevMinecraftForge1.20.1
+    Forge Mod https://github.com/Annabel369/SolanaDevMinecraftForge1.20.1
+
+    Plugin https://github.com/Annabel369/SolanaDevMinecraft
 
 WebSolana is an integrated web platform for managing assets, tokens, and command automation on the Solana network (Devnet), featuring advanced security support via WebAuthn (YubiKey) and Docker environment integration.
 
